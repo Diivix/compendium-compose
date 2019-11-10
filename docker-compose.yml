@@ -23,7 +23,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   ticketbooth:
-    image: diivix/ticketbooth:develop
+    image: registry.gitlab.com/diivix/ticketbooth:develop
     container_name: ticketbooth
     restart: unless-stopped
     environment:

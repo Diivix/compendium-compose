@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: "traefik:v2.0.0-rc3"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:8443"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+      #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.mytlschallenge.acme.email=chrisiivix@@gmail.com"
+      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  ticketbooth:
+    image: diivix/ticketbooth:develop
+    container_name: ticketbooth
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: ticketbooth
+      SERVICE_TAGS: production
+    working_dir: /app
+    volumes:
+      - /data/ticketbooth:/data/tickebooth
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ticketbooth.rule=Host(`diivix.xom`)"
+      - "traefik.http.routers.ticketbooth.entrypoints=websecure"
+      - "traefik.http.routers.ticketbooth.tls.certresolver=mytlschallenge"

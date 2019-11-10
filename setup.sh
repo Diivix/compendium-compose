@@ -10,7 +10,7 @@ openssl rsa -in $TICKETBOOTH_DATA/keys/private.key -outform PEM -pubout -out $TI
 
 echo -n "Registry username": 
 read -s username
-echo -n "\nRegistry password": 
+echo -n "Registry password": 
 read -s password
 
 docker login registry.gitlab.com -u $username -p $password

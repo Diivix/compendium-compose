@@ -10,14 +10,14 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.websecure.address=:8080"
+      - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       #- "--certificatesresolvers.mytlschallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.mytlschallenge.acme.email=chrisiivix@@gmail.com"
+      - "--certificatesresolvers.mytlschallenge.acme.email=chrisiivix@gmail.com"
       - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
     ports:
       - "443:443"
-      - "80:80"
+      - "8080:8080"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -31,9 +31,10 @@ services:
       SERVICE_TAGS: production
     working_dir: /app
     volumes:
-      - /data/ticketbooth:/data/tickebooth
+      - /data/ticketbooth:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ticketbooth.rule=Host(`diivix.xom`)"
+      - "traefik.http.routers.ticketbooth.rule=Host(`diivix.com`)"
       - "traefik.http.routers.ticketbooth.entrypoints=websecure"
       - "traefik.http.routers.ticketbooth.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.ticketbooth.loadbalancer.server.port=443"

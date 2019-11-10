@@ -2,6 +2,7 @@
 
 TICKETBOOTH_DATA=/data/ticketbooth
 
+rm -r $TICKETBOOTH_DATA
 mkdir -p $TICKETBOOTH_DATA/keys
 openssl genrsa -out $TICKETBOOTH_DATA/keys/private.key 2048
 openssl rsa -in $TICKETBOOTH_DATA/keys/private.key -outform PEM -pubout -out $TICKETBOOTH_DATA/keys/public.key
@@ -9,7 +10,7 @@ openssl rsa -in $TICKETBOOTH_DATA/keys/private.key -outform PEM -pubout -out $TI
 
 echo -n "Registry username": 
 read -s username
-echo -n "Registry password": 
+echo -n "\nRegistry password": 
 read -s password
 
 docker login registry.gitlab.com -u $username -p $password

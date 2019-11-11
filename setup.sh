@@ -2,6 +2,9 @@
 
 TICKETBOOTH_DATA=/data/ticketbooth
 
+docker-compose down
+docker rmi $(docker images -a -q)
+
 rm -r $TICKETBOOTH_DATA
 mkdir -p $TICKETBOOTH_DATA/keys
 openssl genrsa -out $TICKETBOOTH_DATA/keys/private.key 2048

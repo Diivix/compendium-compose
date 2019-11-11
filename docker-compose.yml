@@ -37,4 +37,4 @@ services:
       - "traefik.http.routers.ticketbooth.rule=Host(`diivix.com`)"
       - "traefik.http.routers.ticketbooth.entrypoints=websecure"
       - "traefik.http.routers.ticketbooth.tls.certresolver=mytlschallenge"
-      - "traefik.http.services.ticketbooth.loadbalancer.server.port=443"
+      - "traefik.http.services.ticketbooth.loadbalancer.server.port=3080"

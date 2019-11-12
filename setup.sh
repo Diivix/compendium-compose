@@ -18,3 +18,8 @@ read -s password
 
 docker login registry.gitlab.com -u $username -p $password
 docker-compose up -d
+
+sleep 10
+
+docker exec -t --workdir /app ticketbooth node_modules/.bin/sequelize db:migrate
+docker exec -t --workdir /app ticketbooth node_modules/.bin/sequelize db:seed:all

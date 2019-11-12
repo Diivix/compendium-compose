@@ -34,7 +34,10 @@ services:
       - /data/ticketbooth:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ticketbooth.rule=Host(`diivix.com`)"
+      - "traefik.http.routers.ticketbooth.middlewares=ticketbooth-mw@docker"
+      - "traefik.http.routers.ticketbooth.rule=Host(`diivix.com`)&&PathPrefix(`/auth`)"
       - "traefik.http.routers.ticketbooth.entrypoints=websecure"
       - "traefik.http.routers.ticketbooth.tls.certresolver=mytlschallenge"
       - "traefik.http.services.ticketbooth.loadbalancer.server.port=3080"
+      - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.regex=^/auth/"
+      - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.replacement=/"

@@ -1,7 +1,6 @@
 version: "3.3"
 
 services:
-
   traefik:
     image: "traefik:v2.0.0-rc3"
     container_name: "traefik"
@@ -41,3 +40,23 @@ services:
       - "traefik.http.services.ticketbooth.loadbalancer.server.port=3080"
       - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.regex=^/auth/"
       - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.replacement=/"
+    
+  compendium-api:
+    image: registry.gitlab.com/diivix/compendium-api:develop
+    container_name: compendium-api
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: compendium-api
+      SERVICE_TAGS: production
+    working_dir: /app
+    volumes:
+      - /data/compendium-api:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.compendium-api.middlewares=compendium-api-mw@docker"
+      - "traefik.http.routers.compendium-api.rule=Host(`diivix.com`)&&PathPrefix(`/api`)"
+      - "traefik.http.routers.compendium-api.entrypoints=websecure"
+      - "traefik.http.routers.compendium-api.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.compendium-api.loadbalancer.server.port=3040"
+      - "traefik.http.middlewares.compendium-api-mw.replacepathregex.regex=^/api/"
+      - "traefik.http.middlewares.compendium-api-mw.replacepathregex.replacement=/"

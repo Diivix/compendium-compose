@@ -60,3 +60,21 @@ services:
       - "traefik.http.services.compendium-api.loadbalancer.server.port=3040"
       - "traefik.http.middlewares.compendium-api-mw.replacepathregex.regex=^/api/"
       - "traefik.http.middlewares.compendium-api-mw.replacepathregex.replacement=/"
+
+  compendium:
+    image: registry.gitlab.com/diivix/compendium:develop
+    container_name: compendium
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: compendium
+      SERVICE_TAGS: production
+    working_dir: /
+    volumes:
+      - /data/compendium:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.compendium.middlewares=compendium-mw@docker"
+      - "traefik.http.routers.compendium.rule=Host(`diivix.com`)&&PathPrefix(`/`)"
+      - "traefik.http.routers.compendium.entrypoints=websecure"
+      - "traefik.http.routers.compendium.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.compendium.loadbalancer.server.port=3000"

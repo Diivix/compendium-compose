@@ -2,13 +2,15 @@
 
 TICKETBOOTH_DATA=/data/ticketbooth
 COMPENDIUM_API_DATA=/data/compendium-api
+COMPENDIUM_DATA=/data/compendium
 
 docker-compose down
 docker rmi $(docker images -a -q)
 
-rm -r $TICKETBOOTH_DATA $COMPENDIUM_API_DATA
+rm -r $TICKETBOOTH_DATA $COMPENDIUM_API_DATA $COMPENDIUM_DATA
 mkdir -p $TICKETBOOTH_DATA/keys
 mkdir -p $COMPENDIUM_API_DATA/keys
+mkdir -p $COMPENDIUM_DATA
 
 # Create keys for ticketbooth
 openssl genrsa -out $TICKETBOOTH_DATA/keys/private.key 2048

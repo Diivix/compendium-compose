@@ -73,8 +73,7 @@ services:
       - /data/compendium:/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.compendium.middlewares=compendium-mw@docker"
-      - "traefik.http.routers.compendium.rule=Host(`diivix.com`)&&PathPrefix(`/`)"
+      - "traefik.http.routers.compendium.rule=Host(`diivix.com`)"
       - "traefik.http.routers.compendium.entrypoints=websecure"
       - "traefik.http.routers.compendium.tls.certresolver=mytlschallenge"
       - "traefik.http.services.compendium.loadbalancer.server.port=3000"

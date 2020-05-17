@@ -22,10 +22,10 @@ cp $TICKETBOOTH_DATA/keys/public.key $COMPENDIUM_API_DATA/keys/public.key
 
 echo -n "GitLab Docker Registry username": 
 read -s username
-echo -n "GitLab Docker Registry password": 
-read -s password
+echo "Getting token from token.txt..."
+TOKEN=`cat token.txt`
 
-docker login registry.gitlab.com -u $username -p $password
+docker login registry.gitlab.com -u $username -p $TOKEN
 docker-compose up -d
 
 sleep 10

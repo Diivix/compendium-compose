@@ -40,7 +40,7 @@ services:
       - "traefik.http.services.ticketbooth.loadbalancer.server.port=3080"
       - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.regex=^/auth/"
       - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.replacement=/"
-    
+
   compendium-api:
     image: registry.gitlab.com/diivix/compendium-api:develop
     container_name: compendium-api

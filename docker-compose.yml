@@ -40,6 +40,7 @@ services:
       - "traefik.http.services.ticketbooth.loadbalancer.server.port=3080"
       - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.regex=^/auth/"
       - "traefik.http.middlewares.ticketbooth-mw.replacepathregex.replacement=/"
+      - "traefik.http.middlewares.ticketbooth.compress=true"
 
   compendium-api:
     image: registry.gitlab.com/diivix/compendium-api:develop
@@ -60,6 +61,7 @@ services:
       - "traefik.http.services.compendium-api.loadbalancer.server.port=3040"
       - "traefik.http.middlewares.compendium-api-mw.replacepathregex.regex=^/api/"
       - "traefik.http.middlewares.compendium-api-mw.replacepathregex.replacement=/"
+      - "traefik.http.middlewares.compendium-api.compress=true"
 
   compendium:
     image: registry.gitlab.com/diivix/compendium:develop
@@ -77,3 +79,4 @@ services:
       - "traefik.http.routers.compendium.entrypoints=websecure"
       - "traefik.http.routers.compendium.tls.certresolver=mytlschallenge"
       - "traefik.http.services.compendium.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.compendium.compress=true"
